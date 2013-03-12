@@ -20,7 +20,7 @@
 %%% -------------------------------------------------------------------
 -module(ip_device).
 
--export([get_ip/0]).
+-export([get_ip/0, ip_as_string/1]).
 
 get_ip() ->
 	get_active_ip().
