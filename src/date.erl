@@ -82,6 +82,9 @@ get_days_of_month(Year, Month) ->
 list_of_integer_to_string(List_of_integer) ->
 	string:join([integer_to_list(S) || S <- List_of_integer],",").	
 					
+get_timestamp() ->
+	erlang:list_to_binary(erlang:integer_to_list(calendar:datetime_to_gregorian_seconds(calendar:local_time()))).
+
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
 create_date_from_string_test() ->
