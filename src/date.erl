@@ -85,6 +85,9 @@ list_of_integer_to_string(List_of_integer) ->
 get_timestamp() ->
 	erlang:list_to_binary(erlang:integer_to_list(calendar:datetime_to_gregorian_seconds(calendar:local_time()))).
 
+timestamp_to_date(Time) when is_binary(Time) ->
+	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(erlang:binary_to_list(Time)))).
+
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
 create_date_from_string_test() ->
