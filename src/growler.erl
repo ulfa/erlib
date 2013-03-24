@@ -139,10 +139,10 @@ code_change(OldVsn, State, Extra) ->
 %%% Internal functions
 %% --------------------------------------------------------------------
 set_growl(growl, true, State) ->
-	growl_success("Watcherl","Notifications Enabled", State),
+	growl_success("Growler","Notifications Enabled", State),
 	State#state{growl = true};
 set_growl(growl, false, State) ->
-	growl_success("Watcherl","Notifications disabled", State),
+	growl_success("Growler","Notifications disabled", State),
 	State#state{growl = false};
 set_growl(success, true, State) ->
 	State#state{success = true};
@@ -241,4 +241,8 @@ replace_chars(String, Tab) ->
 %% --------------------------------------------------------------------
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
+success_test() ->
+	growler:start(),
+	growler:success("Das ist ein Test").
+	
 -endif.
