@@ -11,7 +11,10 @@ transform(false) ->
 transform(Value) when is_atom(Value) ->
 	erlang:atom_to_binary(Value, utf8);
 transform([]) ->
-	[];		
+	[];
+
+transform([H|T]) when is_list(H) ->
+	[transform(X)||X<-[H|T]];
 transform(Value) when is_list(Value) ->
 	case is_tuple_list(Value) of 
 		true -> proplists_to_jsx_input(Value);
@@ -43,6 +46,8 @@ transform_test() ->
 	?assertEqual(<<"test">>, transform("test")),
 	?assertEqual([{<<"a">>,<<"b">>}, {<<"c">>,<<"d">>}], transform([{a,b}, {c,d}])),
 	?assertEqual([], transform([])),
+	?assertEqual([<<"<0.0.0>">>], transform(["<0.0.0>"])),
+	?assertEqual([<<"test">>, <<"test2">>], transform(["test", "test2"])),
 	?assertEqual([<<"a">>,<<"b">>, <<"c">>], transform({a,b,c})),
 	?assertEqual([{<<"a">>,<<"b">>}, {<<"c">>,<<"d">>}], proplists_to_jsx_input([{a,b}, {c,d}])).
 -endif.
