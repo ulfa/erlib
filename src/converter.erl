@@ -10,6 +10,9 @@ transform(false) ->
 	false;	
 transform(Value) when is_atom(Value) ->
 	erlang:atom_to_binary(Value, utf8);
+
+transform([]) ->
+	[];		
 transform(Value) when is_list(Value) ->
 	case is_tuple_list(Value) of 
 		true -> Value;
@@ -17,7 +20,9 @@ transform(Value) when is_list(Value) ->
 	end;
 transform(Value) ->
 	Value.
-is_tuple_list([H|T]) ->
+is_tuple_list([]) ->	
+	false;
+is_tuple_list([H|_T]) ->
 	is_tuple(H). 
 
 -include_lib("eunit/include/eunit.hrl").
@@ -35,5 +40,6 @@ transform_test() ->
 	?assertEqual(1, transform(1)),
 	?assertEqual(1.0, transform(1.0)),
 	?assertEqual(<<"test">>, transform("test")),
-	?assertEqual([{a,b}, {c,d}], transform([{a,b}, {c,d}])).
+	?assertEqual([{a,b}, {c,d}], transform([{a,b}, {c,d}])),
+	?assertEqual([], transform([])).
 -endif.
