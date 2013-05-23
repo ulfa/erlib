@@ -67,7 +67,9 @@ get_formated_date(Date) ->
 	Args = [Year, Month, Day, Hour, Min, Seconds],
 	A = io_lib:format("~B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B", Args),
 	lists:flatten(A).
-	
+
+get_formated_date_for_now(Now) ->
+	get_formated_date(calendar:now_to_local_time(Now)).
 
 get_first_day({Y, M, _D}) ->
 	FromDate = date_lib:create_date_string({{Y, M, 1}, {0,0,0}}).
@@ -88,8 +90,22 @@ get_timestamp() ->
 timestamp_to_date(Time) when is_binary(Time) ->
 	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(erlang:binary_to_list(Time)))).
 
+
+format_uptime(UpTime) ->
+	{D, {H, M, S}} = calendar:seconds_to_daystime(UpTime div 1000),
+	lists:flatten(io_lib:format("~p days, ~p hours, ~p minutes and ~pseconds", [D,H,M,S])).
+
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
+
+is_date_in_range_test() ->
+	?assertEqual(true, is_date_in_range({{2012,10,01}, {0,0,0}}, {{2012,11,01},{0,0,0}})),
+	?assertEqual(false, is_date_in_range({{2012,10,01}, {0,0,0}}, {{2012,09,01},{0,0,0}})).
+
+day_of_week_test() ->
+	?assertEqual("Montag", day_of_week(1)),
+	?assertEqual("Sonntag", day_of_week(7)).
+
 create_date_from_string_test() ->
 	?assertEqual({{2012,10,30}, {00,00,00}}, create_date_from_string("2012-10-30")).
 	
@@ -98,6 +114,10 @@ create_date_string_test() ->
 	
 create_date_german_string_test() ->
 		?assertEqual("20.10.2012", create_date_german_string({{2012,10,20}, {0,0,0}})).
+get_formated_date_test() ->
+	?assertEqual("2013-05-23 11:39:02", get_formated_date({{2013,5,23},{11,39,2}})).
 
+get_formated_date_for_now_test() ->
+	?assertEqual("2013-05-23 11:44:05", get_formated_date_for_now({1369,302245,468365})).
 
 -endif.
