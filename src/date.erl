@@ -3,6 +3,9 @@
 
 -define(WOCHENTAG(Int), lists:nth(Int, ["Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"])).
 
+get_date_seconds() ->
+    calendar:datetime_to_gregorian_seconds(calendar:local_time()).
+
 is_date_in_range(Akt_date, Date) ->	
 	calendar:datetime_to_gregorian_seconds(Akt_date) - calendar:datetime_to_gregorian_seconds(Date) < 0.
 
