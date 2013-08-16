@@ -102,8 +102,8 @@ get_timestamp() ->
 timestamp_to_date(Time) when is_binary(Time) ->
 	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(erlang:binary_to_list(Time)))).
 
-seconds_to_date(Seconds)  ->
-	date:get_formated_date(calendar:gregorian_seconds_to_datetime(Seconds)).
+seconds_to_date(Seconds) when is_list(Seconds) ->
+	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(Seconds))).
 
 format_uptime(UpTime) ->
 	{D, {H, M, S}} = calendar:seconds_to_daystime(UpTime div 1000),
