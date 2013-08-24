@@ -31,5 +31,4 @@ start_link([Application]) ->
 %% ===================================================================
 
 init([Application]) ->
-	io:format("1... ~p", [?CHILD(account, worker, Application)]),
     {ok, { {one_for_one, 5, 10}, [?CHILD(account, worker, Application)]}}.

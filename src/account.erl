@@ -31,13 +31,13 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 -export([start_link/1]).
 
--export([is_account/2]).
+-export([is_valid_account/2]).
 
 %% ====================================================================
 %% External functions
 %% ====================================================================
-is_account(Account, Password) ->
-	gen_server:call(?MODULE, {is_account, Account, Password}).
+is_valid_account(Account, Password) ->
+	gen_server:call(?MODULE, {is_valid_account, Account, Password}).
 %% --------------------------------------------------------------------
 %% record definitions
 %% --------------------------------------------------------------------
@@ -73,7 +73,7 @@ init([Application]) ->
 %%          {stop, Reason, Reply, State}   | (terminate/2 is called)
 %%          {stop, Reason, State}            (terminate/2 is called)
 %% --------------------------------------------------------------------
-handle_call({is_account, Account, Password}, From, State=#state{application=Application}) ->
+handle_call({is_valid_account, Account, Password}, From, State=#state{application=Application}) ->
    	Accounts = get_accounts(Application),
     {reply, check_account(Accounts, Account, Password), State};
 
