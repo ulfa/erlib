@@ -24,7 +24,7 @@
 %% ===================================================================
 
 start_link([Application]) ->
-    supervisor:start_link({local, ?MODULE}, ?MODULE, [Application]).
+    supervisor:start_link({local, erlang:list_to_atom(lists:concat([Application, "_", ?MODULE]))}, ?MODULE, [Application]).
 
 %% ===================================================================
 %% Supervisor callbacks

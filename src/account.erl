@@ -50,7 +50,7 @@ is_valid_account(Account, Password) ->
 %% Description: Starts the server
 %%--------------------------------------------------------------------
 start_link(Application) ->
-    gen_server:start_link({local, ?MODULE}, ?MODULE, [Application], []).
+    gen_server:start_link({local, erlang:list_to_atom(lists:concat([Application, "_", ?MODULE]))}, ?MODULE, [Application], []).
 
 %% --------------------------------------------------------------------
 %% Function: init/1
