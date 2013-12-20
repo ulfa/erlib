@@ -31,13 +31,13 @@
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 -export([start_link/1]).
 
--export([is_valid_account/2]).
+-export([is_valid_account/3]).
 
 %% ====================================================================
 %% External functions
 %% ====================================================================
-is_valid_account(Account, Password) ->
-	gen_server:call(?MODULE, {is_valid_account, Account, Password}).
+is_valid_account(Application,  Account, Password) ->
+	gen_server:call(erlang:list_to_atom(lists:concat([Application, "_", ?MODULE])), {is_valid_account, Account, Password}).
 %% --------------------------------------------------------------------
 %% record definitions
 %% --------------------------------------------------------------------
