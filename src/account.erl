@@ -127,7 +127,7 @@ check_account(Accounts, Account, Password) ->
 	end.
 
 get_accounts(Application) ->
-	{ok, Accounts} = file:consult(filename:join([code:priv_dir(Application), "accounts.conf"])),
+	{ok, Accounts} = file:consult(filename:join([code:priv_dir(Application), "config", "accounts.conf"])),
 	Accounts.
 %% --------------------------------------------------------------------
 %%% Test functions
