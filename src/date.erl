@@ -80,6 +80,9 @@ get_formated_date(Date) ->
 	A = io_lib:format("~B-~2.10.0B-~2.10.0B ~2.10.0B:~2.10.0B:~2.10.0B", Args),
 	lists:flatten(A).
 
+get_formated_date_for_now(0) ->
+	get_formated_date_for_now(now());
+
 get_formated_date_for_now(Now) ->
 	get_formated_date(calendar:now_to_local_time(Now)).
 
