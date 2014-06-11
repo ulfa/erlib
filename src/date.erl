@@ -108,6 +108,9 @@ timestamp_to_date(Time) when is_binary(Time) ->
 seconds_to_date(Seconds) when is_list(Seconds) ->
 	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(Seconds))).
 
+seconds_to_date(Seconds) when is_integer(Seconds) ->
+	date:get_formated_date(calendar:gregorian_seconds_to_datetime(Seconds)).
+
 format_uptime(UpTime) ->
 	{D, {H, M, S}} = calendar:seconds_to_daystime(UpTime div 1000),
 	lists:flatten(io_lib:format("~p days, ~p hours, ~p minutes and ~pseconds", [D,H,M,S])).
