@@ -15,6 +15,16 @@
 get_date_seconds() ->
     calendar:datetime_to_gregorian_seconds(calendar:local_time()).
 
+get_date_seconds(Date_time) ->
+    calendar:datetime_to_gregorian_seconds(Date_time).
+
+
+get_start_datetime() ->
+	get_date_seconds({erlang:date(), {00,00,00}}).
+
+get_end_datetime() ->
+	get_date_seconds({erlang:date(), {23,59,59}}).
+	
 is_date_in_range(Akt_date, Date) ->	
 	calendar:datetime_to_gregorian_seconds(Akt_date) - calendar:datetime_to_gregorian_seconds(Date) < 0.
 
