@@ -18,13 +18,12 @@ get_date_seconds() ->
 get_date_seconds(Date_time) ->
     calendar:datetime_to_gregorian_seconds(Date_time).
 
-
 get_start_datetime() ->
 	get_date_seconds({erlang:date(), {00,00,00}}).
 
 get_end_datetime() ->
 	get_date_seconds({erlang:date(), {23,59,59}}).
-	
+
 is_date_in_range(Akt_date, Date) ->	
 	calendar:datetime_to_gregorian_seconds(Akt_date) - calendar:datetime_to_gregorian_seconds(Date) < 0.
 
@@ -39,6 +38,14 @@ create_date_from_string([]) ->
 create_date_from_string(Date) ->
 	[Y,M,D] = string:tokens(Date, "-"),
 	{{erlang:list_to_integer(Y), erlang:list_to_integer(M) ,erlang:list_to_integer(D)}, {00,00,00}}.
+
+create_seconds_from_string(Date_time) ->
+	[Date, Time] = string:tokens(Date_time, " "),
+	[HH,MM,SS] = string:tokens(Time, ":"),
+	[Y,M,D] = string:tokens(Date, "-"),
+	DT = {{list_to_integer(Y), list_to_integer(M) ,list_to_integer(D)}, {list_to_integer(HH),list_to_integer(MM),list_to_integer(SS)}},
+	get_date_seconds(DT).
+
 
 create_simple_date_from_string([]) ->
 	erlang:date();	
@@ -138,7 +145,10 @@ day_of_week_test() ->
 
 create_date_from_string_test() ->
 	?assertEqual({{2012,10,30}, {00,00,00}}, create_date_from_string("2012-10-30")).
-	
+
+create_seconds_from_string_test() ->
+	?assertEqual(63569750400, create_seconds_from_string("2014-06-12 00:00:00")).
+
 create_date_string_test() ->
 	?assertEqual("2012-10-20", create_date_string({{2012,10,20}, {0,0,0}})).
 	
