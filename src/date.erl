@@ -132,8 +132,21 @@ format_uptime(UpTime) ->
 	{D, {H, M, S}} = calendar:seconds_to_daystime(UpTime div 1000),
 	lists:flatten(io_lib:format("~p days, ~p hours, ~p minutes and ~pseconds", [D,H,M,S])).
 
+is_valid_date_time(Date_time) ->
+	try 
+		create_seconds_from_string(Date_time),
+		true
+	catch
+		_:Error -> false 
+	end.
+
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
+
+is_valid_date_timetest() ->
+	?assertEqual(true, is_valid_date_time("2014-06-12 00:00:00")),
+	?assertEqual(false, is_valid_date_time("2014-06-12")).
+
 
 is_date_in_range_test() ->
 	?assertEqual(true, is_date_in_range({{2012,10,01}, {0,0,0}}, {{2012,11,01},{0,0,0}})),
