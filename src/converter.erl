@@ -26,13 +26,13 @@ transform(Value) when is_atom(Value) ->
 transform([H|T]) when is_list(H) ->
 	[transform(X)||X<-[H|T]];
 transform([H|T]) when is_tuple(H) ->
-	proplists_to_jsx_input([H|T]);
+	proplists_to_jsx_input([H|T]);	
 transform(Value) when is_tuple(Value) ->
-	[transform(X)||X<-tuple_to_list(Value)];
+	[transform(X)||X <- tuple_to_list(Value)];
 transform(Value) when is_list(Value) ->
 	case is_string(Value) of 
 		true -> list_to_binary(Value);
-		false -> [transform(X)||X<-Value]
+		false -> [transform(X)||X <-Value]
 	end;
 transform(Value) ->
 	Value.
@@ -67,6 +67,7 @@ transform_test() ->
 	?assertEqual([<<"<0.0.0>">>], transform(["<0.0.0>"])),
 	?assertEqual([<<"test">>, <<"test2">>], transform(["test", "test2"])),
 	?assertEqual([<<"a">>,<<"b">>, <<"c">>], transform({a,b,c})),
-	?assertEqual([{<<"a">>,<<"b">>}, {<<"c">>,<<"d">>}], proplists_to_jsx_input([{a,b}, {c,d}])).
-
+	?assertEqual([{<<"a">>,<<"b">>}, {<<"c">>,<<"d">>}], proplists_to_jsx_input([{a,b}, {c,d}])),
+	?assertEqual([<<"temp">>, 19.00], transform({temp, 19.00})),
+	?assertEqual([{<<"temp">>, 19.00}] ,proplists_to_jsx_input([{<<"temp">>, 19.00}])).
 -endif.
