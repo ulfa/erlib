@@ -29,7 +29,11 @@ is_date_in_range(Akt_date, Date) ->
 
 is_date_in_range(Date) ->
 	is_date_in_range(calendar:universal_time(), Date).
-		
+
+is_time_in_range(Min_time, Max_time, Akt_time)->
+	Akt_seconds = calendar:time_to_seconds(Akt_time),
+	(calendar:time_to_seconds(Min_time) =< Akt_seconds) and (Akt_seconds =< calendar:time_to_seconds(Max_time)). 
+
 day_of_week(Int) ->
 	?WOCHENTAG(Int).
 
@@ -142,6 +146,13 @@ is_valid_date_time(Date_time) ->
 
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
+
+is_time_in_range_test() ->
+	?assertEqual(true, is_time_in_range({11,00,00}, {17,00,00}, {16,00,00})),
+	?assertEqual(true, is_time_in_range({11,00,00}, {16,00,00}, {16,00,00})),
+	?assertEqual(false, is_time_in_range({11,00,00}, {16,00,00}, {16,00,01})),
+	?assertEqual(true, is_time_in_range({11,00,00}, {17,00,00}, {11,00,00})),
+	?assertEqual(false, is_time_in_range({11,00,00}, {17,00,00}, {10,59,59})).
 
 is_valid_date_timetest() ->
 	?assertEqual(true, is_valid_date_time("2014-06-12 00:00:00")),
