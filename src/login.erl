@@ -45,7 +45,7 @@ login(ReqData, Context) ->
 
 is_peer_allowed(ReqData) ->
     Peer = wrq:peer(ReqData),
-    {ok, Peers} = application:get_env(horst, peers),     
+    {ok, Peers} = application:get_env(erlything, peers),     
     lists:member(Peer, Peers).
 
 %% --------------------------------------------------------------------
