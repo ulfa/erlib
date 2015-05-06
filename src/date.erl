@@ -66,7 +66,7 @@ create_to_date(Date) ->
 	{D, {23,59,59}}.
 	
 create_date_string(Date) ->
-	{{Year,Month,Day},{Hour,Min,Seconds}} = Date,
+	{{Year,Month,Day},{_Hour, _Min, _Seconds}} = Date,
 	Args = [Year, Month, Day],
 	lists:flatten(io_lib:format("~B-~2..0B-~2..0B", Args)).
 
@@ -74,7 +74,7 @@ create_date_string_from_date(Date) ->
 	create_date_string({Date, {0,0,0}}).
 
 create_date_german_string(Date) ->
-	{{Year,Month,Day},{Hour,Min,Seconds}} = Date,
+	{{Year,Month,Day},{_Hour, _Min, _Seconds}} = Date,
 	Args = [Day,Month,Year],
 	lists:flatten(io_lib:format("~2..0B.~2..0B.~B", Args)).
 	
@@ -108,11 +108,11 @@ get_formated_date_for_now(Now) ->
 	get_formated_date(calendar:now_to_local_time(Now)).
 
 get_first_day({Y, M, _D}) ->
-	FromDate = date_lib:create_date_string({{Y, M, 1}, {0,0,0}}).
+	date_lib:create_date_string({{Y, M, 1}, {0,0,0}}).
 	
-get_last_day({Y, M, D}) ->	
+get_last_day({Y, M, _D}) ->	
 	Last_day = calendar:last_day_of_the_month(Y, M),
-	ToDate = date_lib:create_date_string({{Y, M, Last_day}, {0,0,0}}).
+	date_lib:create_date_string({{Y, M, Last_day}, {0,0,0}}).
 	
 get_days_of_month(Year, Month) ->
 	list_of_integer_to_string(lists:seq(1, calendar:last_day_of_the_month(list_to_integer(Year), list_to_integer(Month)))).
@@ -141,7 +141,7 @@ is_valid_date_time(Date_time) ->
 		create_seconds_from_string(Date_time),
 		true
 	catch
-		_:Error -> false 
+		_:_Error -> false 
 	end.
 
 -include_lib("eunit/include/eunit.hrl").
