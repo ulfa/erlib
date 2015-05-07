@@ -107,6 +107,9 @@ get_formated_date_for_now(0) ->
 get_formated_date_for_now(Now) ->
 	get_formated_date(calendar:now_to_local_time(Now)).
 
+get_formated_date_for_seconds(Seconds) ->
+	get_formated_date(calendar:gregorian_seconds_to_datetime(Seconds)).
+
 get_first_day({Y, M, _D}) ->
 	date_lib:create_date_string({{Y, M, 1}, {0,0,0}}).
 	
@@ -183,5 +186,12 @@ get_formated_date_test() ->
 
 get_formated_date_for_now_test() ->
 	?assertEqual("2013-05-23 11:44:05", get_formated_date_for_now({1369,302245,468365})).
+
+seconds_to_date_test() ->
+	?assertEqual("2015-05-07 06:40:36", seconds_to_date(63598200036)).	
+
+get_formated_date_for_seconds_test() ->
+get_formated_date_for_seconds(63598200036).
+	%%?assertEqual("2015-05-07 06:40:36", get_formated_date_for_seconds(63598200036)).
 
 -endif.
