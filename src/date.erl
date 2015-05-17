@@ -135,7 +135,7 @@ get_timestamp() ->
 	erlang:list_to_binary(erlang:integer_to_list(calendar:datetime_to_gregorian_seconds(calendar:local_time()))).
 
 timestamp_to_date(Time) when is_binary(Time) ->
-	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(erlang:binary_to_list(Time)))).
+	date:get_formated_date(space, calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(erlang:binary_to_list(Time)))).
 
 seconds_to_date(Seconds) when is_list(Seconds) ->
 	date:get_formated_date(calendar:gregorian_seconds_to_datetime(erlang:list_to_integer(Seconds)));
@@ -157,6 +157,9 @@ is_valid_date_time(Date_time) ->
 
 -include_lib("eunit/include/eunit.hrl").
 -ifdef(TEST).
+
+timestamp_to_date_test() ->
+	?assertEqual("2015-05-17 07:54:48", timestamp_to_date(<<"63599068488">>)).
 
 is_time_in_range_test() ->
 	?assertEqual(true, is_time_in_range({11,00,00}, {17,00,00}, {16,00,00})),
